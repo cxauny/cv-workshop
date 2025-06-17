@@ -122,7 +122,7 @@ Du vil da få ut to URL'er i loggen, én til frontend og én til backend.
 
 # Videre
 
-Alternativt kan du installere disse hvis du vil kjøre lokalt senere:
+Alternativt kan du installere disse hvis du vil kjøre lokalt senere
 
 - [Docker](https://docs.docker.com/desktop/features/wsl)
 - [Terraform](https://developer.hashicorp.com/terraform/install#linux)
