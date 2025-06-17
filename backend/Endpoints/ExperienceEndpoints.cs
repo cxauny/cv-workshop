@@ -30,7 +30,7 @@ public static class ExperienceEndpoints
 
                     var experience = await cvService.GetExperienceByIdAsync(id);
                     var experienceDto = experience.ToDto();
-                    
+
                     return Results.Ok(experienceDto);
 
                 }
@@ -44,8 +44,10 @@ public static class ExperienceEndpoints
                 async (string type, ICvService cvService) =>
                 {
                     // TODO: Oppgave 3
+                    var experiences = await cvService.GetExperiencesByTypeAsync(type);
+                    var experienceDtos = experiences.Select(e => e.ToDto()).ToList();
 
-                    return Results.Ok();
+                    return Results.Ok(experienceDtos);
                 }
             )
             .WithName("GetExperiencesByType")

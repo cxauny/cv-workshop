@@ -28,6 +28,7 @@ public class CvService(AppDbContext context) : ICvService
     public async Task<Experience?> GetExperienceByIdAsync(Guid id)
     {
         // TODO: Oppgave 2
+
         return await context.Experiences.FindAsync(id);
     }
 
@@ -35,7 +36,7 @@ public class CvService(AppDbContext context) : ICvService
     {
         // TODO: Oppgave 3
 
-        return [];
+        return await context.Experiences.Where(e => e.Type == type).OrderBy(e => e.StartDate).ToListAsync();
     }
 
     // TODO: Oppgave 4 ny metode (husk å legge den til i interfacet)
