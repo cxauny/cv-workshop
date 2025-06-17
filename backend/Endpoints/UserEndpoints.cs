@@ -43,7 +43,9 @@ public static class UserEndpoints
             async (Guid id, ICvService cvService) =>
             {
                 var user = await cvService.GetUserByIdAsync(id);
-                return Results.Ok(id);
+                var userDto = user.ToDto();
+                
+                return Results.Ok(userDto);
             }
         )
         .WithName("GetUserById")
