@@ -37,5 +37,16 @@ public static class UserEndpoints
             )
             .WithName("GetUsersWithDesiredSkill")
             .WithTags("Users");
+
+        app.MapGet(
+            "/users/{id:guid}",
+            async (Guid id, ICvService cvService) =>
+            {
+                var user = await cvService.GetUserByIdAsync(id);
+                return Results.Ok(id);
+            }
+        )
+        .WithName("GetUserById")
+        .WithTags("Users");
     }
 }
