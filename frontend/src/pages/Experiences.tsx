@@ -25,6 +25,7 @@ export default function Experiences() {
     // TODO Oppgave 5.1: Filtrer experiences etter type
   };
 
+  
   // const filteredExperiences = () => {
   //   const validTypes = Object.keys(experienceTypeMap).filter(
   //     (type) => type !== "other"
