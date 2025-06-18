@@ -7,37 +7,50 @@ namespace backend.Services;
 
 public class CvService(AppDbContext context) : ICvService
 {
+    // Users
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
         return await context.Users.OrderBy(u => u.Name).ToListAsync();
     }
-
-    // TODO: Oppgave 1
 
     public async Task<User?> GetUserByIdAsync(Guid id)
     {
         return await context.Users.FindAsync(id);
     }
 
+    public async Task<IEnumerable<User>> GetUsersWithDesiredSkillAsync(
+        IEnumerable<string> desiredSkills
+    )
+    {
+        var allUsers = await GetAllUsersAsync();
+
+        return allUsers.Where(user =>
+            UserMapper
+                .ParseUserSkills(user.Skills)
+                .Any(skill =>
+                    desiredSkills
+                        .Select(skill => skill.ToLower())
+                        .Contains(skill.Technology.ToLower())
+                )
+        );
+    }
+
+    // Experiences
     public async Task<IEnumerable<Experience>> GetAllExperiencesAsync()
     {
-        // TODO: Oppgave 2
         return await context.Experiences.OrderBy(e => e.StartDate).ToListAsync();
     }
 
     public async Task<Experience?> GetExperienceByIdAsync(Guid id)
     {
-        // TODO: Oppgave 2
-
         return await context.Experiences.FindAsync(id);
     }
 
     public async Task<IEnumerable<Experience>> GetExperiencesByTypeAsync(string type)
     {
-        // TODO: Oppgave 3
-
-        return await context.Experiences.Where(e => e.Type == type).OrderBy(e => e.StartDate).ToListAsync();
+        return await context
+            .Experiences.Where(e => e.Type == type)
+            .OrderBy(e => e.StartDate)
+            .ToListAsync();
     }
-
-    // TODO: Oppgave 4 ny metode (husk å legge den til i interfacet)
 }

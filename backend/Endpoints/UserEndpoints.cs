@@ -24,31 +24,33 @@ public static class UserEndpoints
             .WithTags("Users");
 
         // GET /users/{id}
-        // TODO: Oppgave 1: skriv et endepunkt for å hente ut riktig bruker
+        app.MapGet(
+                "/users/{id:guid}",
+                async (Guid id, ICvService cvService) =>
+                {
+                    var user = await cvService.GetUserByIdAsync(id);
+                    var userDto = user.ToDto();
 
-        // Retrieve all cvs that include any of the wanted skills
+                    return Results.Ok(userDto);
+                }
+            )
+            .WithName("GetUserById")
+            .WithTags("Users");
+
+        // POST /users/skills
         app.MapPost(
                 "/users/skills",
-                async () =>
+                async (SkillRequest skillRequest, ICvService cvService) =>
                 {
-                    // TODO: Oppgave 4
-                    return Results.Ok();
+                    var users = await cvService.GetUsersWithDesiredSkillAsync(
+                        skillRequest.WantedSkills
+                    );
+                    var userDtos = users.Select(u => u.ToDto()).ToList();
+
+                    return Results.Ok(userDtos);
                 }
             )
             .WithName("GetUsersWithDesiredSkill")
             .WithTags("Users");
-
-        app.MapGet(
-            "/users/{id:guid}",
-            async (Guid id, ICvService cvService) =>
-            {
-                var user = await cvService.GetUserByIdAsync(id);
-                var userDto = user.ToDto();
-                
-                return Results.Ok(userDto);
-            }
-        )
-        .WithName("GetUserById")
-        .WithTags("Users");
     }
 }
