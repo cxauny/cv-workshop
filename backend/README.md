@@ -21,7 +21,7 @@
 1. For å finne denne koden senere, kjør `dotnet user-secrets list`.
 1. Kjør `dotnet run`
 Nå kjører backenden på port 5007.
-1. Gå til `http://localhost:5007/swagger` i nettleseren din, og sørg for at Swagger dukker opp.
+1. Gå til `http://localhost:5007/` i nettleseren din, og sørg for at Swagger dukker opp.
 1. Til senere: Når frontenden er satt opp og kjører, sørg for at AllowedCorsOrigins i appsettings.json inneholder de url-ene som skal få lov til å hente data fra backenden, samt porten der frontenden kjører lokalt (Dette skal være http://localhost:5173)
 
 # Kontekst for backend
@@ -82,12 +82,21 @@ Utfør følgende oppgaver:
     3. Returnere de filtrerte brukerne som har _minst_ en ønsket ferdighet.
     
     _HINT_: Bruk LINQ-uttrykk for å prosessere lista.
-3. _Bonusoppgave som kan og bør gjøres før steg 2_: Hva med testing? Hvordan vet vi at strengen parseres korrekt? Skriv enhetstester for _ParseUserSkills_. Eksempelvis skal input
+
+     For de spesielt interesserte: [artikkel om funksjonell programmering i C#](https://www.milanjovanovic.tech/blog/functional-programming-in-csharp-the-practical-parts), + [enda en artikkel](https://matrixtrak.com/an-introduction-to-functional-programming-with-c-a-dive-into-the-paradigm-shift/). 
+4. _Bonusoppgave som kan og bør gjøres før steg 2_: Hva med testing? Hvordan vet vi at strengen parseres korrekt? Skriv enhetstester for _ParseUserSkills_. Eksempelvis skal input
    ``` "React;Kotlin;CSS;" ``` gi følgende output
    ```c#
    [Skill(Technology: "React"), Skill(Technology: "Kotlin"), Skill(Technology: "CSS")] // type: IEnumerable<Skill>
    ```
 
-   Dette er en fin mulighet for å teste ut TDD også. Spør gjerne en av veilederne for en lynintro, evt. sjekk dette [blogginnlegget](https://martinfowler.com/bliki/TestDrivenDevelopment.html) fra Martin Fowler for en kort introduksjon! TL;DR: test før implementasjon, sørg for at testen feiler, implementer metoden, testen består, refaktorer.
+   Dette er en fin mulighet for å teste ut TDD (test-driven development) også. Spør gjerne en av veilederne for en lynintro, evt. sjekk dette [blogginnlegget](https://martinfowler.com/bliki/TestDrivenDevelopment.html) fra Martin Fowler for en kort introduksjon! TL;DR: test før implementasjon, sørg for at testen feiler, implementer metoden, testen består, refaktorer.
 
+## Bonusoppgave: Oppgave 5
 
+Du har kanskje sett at Experience inneholder en User-ID som kan benyttes til å koble opp en gitt bruker med et sett av erfaringer. Denne koblingen finnes ikke ennå, og det er din jobb å opprette denne. Denne oppgaven er mer åpen, og du står fritt frem til å velge tilnærming, basert på tidligere oppgaver. Det står derfor ingen TODO-s i koden som ber deg gjøre noe. Dette er en fin oppgave som kan egne seg til å prøve TDD. 
+
+_HINT_: Her er et forslag til fremgangsmåte: 
+1. Utvid UserEndpoints med et nytt GET-endepunkt på pathen "/users/{id}/experiences"
+2. Utvid CV-service med en metode som enten henter riktig bruker og alle erfaringer, og mapper disse riktig mellom seg. Her er du nok nødt til å utvide UserDto-en samt oppdatere UserMapperen for å sørge for at erfaringene blir med.
+3. Test i Swagger eller ved å utføre TDD: 
