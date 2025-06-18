@@ -35,6 +35,11 @@ public class CvService(AppDbContext context) : ICvService
         );
     }
 
+    public async Task<IEnumerable<Experience>> GetExperiencesOfUserAsync(Guid id)
+    {
+        return await context.Experiences.Where(e => e.UserId == id).ToListAsync();
+    }
+
     // Experiences
     public async Task<IEnumerable<Experience>> GetAllExperiencesAsync()
     {

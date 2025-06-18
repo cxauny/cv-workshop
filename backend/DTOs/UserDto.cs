@@ -12,5 +12,6 @@ public record UserDto(
     string Description,
     string University,
     IEnumerable<Skill> Skills,
-    string? ImageUrl
+    string? ImageUrl,
+    IEnumerable<ExperienceDto> Experiences
 );

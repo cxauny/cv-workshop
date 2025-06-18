@@ -8,6 +8,7 @@ public interface ICvService
     Task<IEnumerable<User>> GetAllUsersAsync();
     Task<User?> GetUserByIdAsync(Guid id);
     Task<IEnumerable<User>> GetUsersWithDesiredSkillAsync(IEnumerable<string> skills);
+    Task<IEnumerable<Experience>> GetExperiencesOfUserAsync(Guid id);
 
     // Experiences
     Task<IEnumerable<Experience>> GetAllExperiencesAsync();
