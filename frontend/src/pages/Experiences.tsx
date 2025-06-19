@@ -23,27 +23,27 @@ export default function Experiences() {
   const handleSelectChange = (e: Event) => {
     const customEvent = e as CustomEvent;
     const selectedFilter = customEvent.detail.value;
-    console.log(selectedFilter);
+     _setSelectedExperience(selectedFilter);
     // TODO Oppgave 5.1: Filtrer experiences etter type
   };
 
-  // const filteredExperiences = () => {
-  //   const validTypes = Object.keys(experienceTypeMap).filter(
-  //     (type) => type !== "other"
-  //   );
+  const filteredExperiences = () => {
+    const validTypes = Object.keys(experienceTypeMap).filter(
+      (type) => type !== "other"
+    );
 
-  //   if (selectedExperience === "other") {
-  //     return experiences.filter(
-  //       (experience) => !validTypes.includes(experience.type.toLowerCase())
-  //     );
-  //   } else if (selectedExperience) {
-  //     return experiences.filter(
-  //       (experience) =>
-  //         experience.type.toLowerCase() === selectedExperience.toLowerCase()
-  //     );
-  //   }
-  //   return experiences;
-  // };
+    if (_selectedExperience === "other") {
+      return experiences.filter(
+        (experience) => !validTypes.includes(experience.type.toLowerCase())
+      );
+    } else if (_selectedExperience) {
+      return experiences.filter(
+        (experience) =>
+          experience.type.toLowerCase() === _selectedExperience.toLowerCase()
+      );
+    }
+    return experiences;
+  };
 
   if(isExperiencesLoading) {
     return (
@@ -74,10 +74,9 @@ export default function Experiences() {
           </label>
         </div>
         <div className={styles.experiences}>
-          {/*TODO Oppgave 3.1: Vis alle erfaringene*/}
-          {experiences.map(e => <div className={styles.container}><ExperienceCard key={e.id} experience={e} /></div>)}
-
-          {/* TODO Oppgave 4.1: Sorter erfaringene*/}
+          {filteredExperiences()
+          .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+          .map(e => <div key={e.id} onLoad={() => console.log(e.startDate)} className={styles.container}><ExperienceCard experience={e} /></div>)}
         </div>
       </div>
     );
