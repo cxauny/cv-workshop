@@ -4,12 +4,26 @@ import { CxOption, CxSelect } from "@computas/designsystem/select/react";
 import { experienceTypeMap } from "../types/experienceTypes";
 import { useExperiences } from "../hooks/useExperiences";
 import { ExperienceCard } from "../components/experiences/ExperienceCard";
+import { ExperienceModal } from "../components/experiences/ExperienceModal";
+import { Experience } from "../types/types";
 
 export default function Experiences() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_selectedExperience, _setSelectedExperience] = useState<string | null>(
     null
   );
+  const [selectedSingleExperience, setSelectedSingleExperience] = useState<Experience | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const openModal = (experience: Experience) => {
+    setSelectedSingleExperience(experience);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedSingleExperience(null);
+  };
 
 
   // TODO Oppgave 2.1 of 2.2: Håndter loading og error av erfaringer
@@ -75,9 +89,28 @@ export default function Experiences() {
         </div>
         <div className={styles.experiences}>
           {filteredExperiences()
-          .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
-          .map(e => <div key={e.id} onLoad={() => console.log(e.startDate)} className={styles.container}><ExperienceCard experience={e} /></div>)}
+            .sort(
+              (a, b) =>
+                new Date(a.startDate).getTime() -
+                new Date(b.startDate).getTime()
+            )
+            .map((e) => (
+              <div
+                key={e.id}
+                className={styles.container}
+                onClick={() => openModal(e)}
+              >
+                <ExperienceCard experience={e} />
+              </div>
+            ))}
         </div>
+        {isModalOpen && selectedSingleExperience && (
+          <ExperienceModal
+            experience={selectedSingleExperience}
+            onClose={closeModal}
+            isOpen={isModalOpen}
+          />
+        )}
       </div>
     );
   }
